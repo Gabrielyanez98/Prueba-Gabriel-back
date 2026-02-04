@@ -31,3 +31,21 @@ The following topics will be considered:
 - Code clarity and maintainability
 - Performance
 - Resilience
+
+## Running the Application
+
+To run the application, execute the following command inside the project root:
+
+```bash
+docker-compose up -d --build products
+```
+
+This will build the application image and start the container alongside the mock services.
+
+- **Base URL**: `http://localhost:5001`
+- **Health Check**: `http://localhost:5001/health`
+
+Check if the service is running:
+```bash
+curl http://localhost:5001/health
+```
