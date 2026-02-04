@@ -34,18 +34,58 @@ The following topics will be considered:
 
 ## Running the Application
 
-To run the application, execute the following command inside the project root:
+### Prerequisites
+- Docker and Docker Compose installed
 
+
+### Starting the Application
+
+1. **Start all services** (application, mocks, and monitoring infrastructure):
+   ```bash
+   docker-compose up -d --build
+   ```
+
+2. **Verify the services are running**:
+   ```bash
+   docker-compose ps
+   ```
+
+### Testing the Application
+
+#### Manual Testing
+
+The application exposes the Similar Products API on port **5000**.
+
+**Test with a valid product:**
 ```bash
-docker-compose up -d --build products
+curl http://localhost:5000/product/1/similar
 ```
 
-This will build the application image and start the container alongside the mock services.
+Expected response:
+```json
+[
+  {"id":"2","name":"Dress","price":19.99,"availability":true},
+  {"id":"3","name":"Blazer","price":29.99,"availability":false},
+  {"id":"4","name":"Boots","price":39.99,"availability":true}
+]
+```
 
-- **Base URL**: `http://localhost:5001`
-- **Health Check**: `http://localhost:5001/health`
-
-Check if the service is running:
+**Test with a non-existent product:**
 ```bash
-curl http://localhost:5001/health
+curl http://localhost:5000/product/9999/similar
+```
+
+Expected response (404):
+```json
+{
+  "message":"Product not found: 9999",
+  "timestamp":"2026-02-04T18:38:21.794",
+  "status":404
+}
+```
+
+### Stopping the Application
+
+```bash
+docker-compose down
 ```
